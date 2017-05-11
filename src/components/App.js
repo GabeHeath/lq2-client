@@ -2,6 +2,9 @@ import React from 'react';
 import {Route} from 'react-router-dom';
 import MainMenu from './MainMenu';
 import {GameStatusContainer} from './GameStatus';
+import injectTapEventPlugin from 'react-tap-event-plugin'
+
+injectTapEventPlugin();
 
 const App = () => {
     return (

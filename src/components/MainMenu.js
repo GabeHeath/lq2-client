@@ -1,25 +1,62 @@
-import React from 'react';
+import React, {Component} from 'react';
+import ReactDOM from 'react-dom';
 import {Link} from 'react-router-dom';
 import getClientId from '../client_id';
+import TextField from 'material-ui/TextField'
+import RaisedButton from 'material-ui/RaisedButton'
 
-const MainMenu = () => {
-    return (
-        <div>
-            <div>{getClientId()}</div>
-            <label htmlFor="name">Name (Limit 12 Characters)</label><br/>
-            <input type="text" id="name" placeholder="Enter your name" />
-            <br/>
-            <label htmlFor="roomCode">Room Code</label><br/>
-            <input type="text" id="roomCode" placeholder="Enter 4-Letter Code" />
-            <br/>
+class MainMenu extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { errorText: '', value: props.value }
+    }
 
-            <h2>Main Menu here</h2>
-            <ul>
-                <li><Link to="/">Main Menu</Link></li>
-                <li><Link to="/game/1111">GameStateWrapper</Link></li>
-            </ul>
-        </div>
-    );
-};
+    render() {
+        return (
+            <div>
+                <div>{getClientId()}</div>
+
+                <TextField
+                    hintText="Enter Your Name"
+                    floatingLabelText="Name"
+                    errorText= {this.state.errorText}
+                    ref="nameField"
+                />
+
+                <RaisedButton
+                    label="Start a New Game"
+                    primary={true}
+                    onTouchTap={ () => {
+                        const newItem = ReactDOM.findDOMNode(this.refs.nameField.input).value
+                        newItem === "" ? this.setState({ errorText: 'Name cannot be blank' }) : this.setState({ errorText: '' })
+                    }}/>
+
+                <br/>
+
+                <TextField
+                    hintText="Enter 4-Letter Code"
+                    floatingLabelText="Room Code"
+                    ref="roomCodeField"
+                />
+
+                <RaisedButton
+                    label="Join a Game"
+                    secondary={true}
+                    onTouchTap={ () => {
+                        const newItem = ReactDOM.findDOMNode(this.refs.nameField.input).value
+                        newItem === "" ? this.setState({ errorText: 'Name cannot be blank' }) : this.setState({ errorText: '' })
+                    }}/>
+
+                <br/>
+
+                <h2>Main Menu here</h2>
+                <ul>
+                    <li><Link to="/">Main Menu</Link></li>
+                    <li><Link to="/game/1111">GameStateWrapper</Link></li>
+                </ul>
+            </div>
+        );
+    }
+}
 
 export default MainMenu;

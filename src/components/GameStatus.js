@@ -18,7 +18,6 @@ class GameStatus extends Component {
 
 function mapStateToProps(state, ownProps) {
        return {
-           //gameInProgress: !!(state.getIn(['rooms', ownProps.match.params.roomCode, 'gameInProgress' ]))
            room: state.getIn(['rooms', ownProps.match.params.roomCode ])
        };
 }
