@@ -1,10 +1,11 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import getClientId from '../client_id';
 
-const MainMenu = ({uuid}) => {
+const MainMenu = () => {
     return (
         <div>
-            <div>{uuid}</div>
+            <div>{getClientId()}</div>
             <label htmlFor="name">Name (Limit 12 Characters)</label><br/>
             <input type="text" id="name" placeholder="Enter your name" />
             <br/>
@@ -15,8 +16,7 @@ const MainMenu = ({uuid}) => {
             <h2>Main Menu here</h2>
             <ul>
                 <li><Link to="/">Main Menu</Link></li>
-                <li><Link to="/lobby">Lobby</Link></li>
-                <li><Link to="/game">Game</Link></li>
+                <li><Link to="/game/1111">GameStateWrapper</Link></li>
             </ul>
         </div>
     );
