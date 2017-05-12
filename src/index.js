@@ -9,15 +9,12 @@ import App from './components/App';
 import {setState} from './action_creators';
 import remoteActionMiddleware from './remote_action_middleware';
 import logger from 'redux-logger';
-import thunk from 'redux-thunk';
-import {Map} from 'immutable';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 const socket = io(`${location.protocol}//${location.hostname}:8090`);
 
 const createStoreWithMiddleware = applyMiddleware(
     remoteActionMiddleware(socket),
-    thunk,
     logger
 )(createStore);
 
@@ -32,17 +29,6 @@ socket.on('state', state =>
 // );
 
 // socket.emit('roomCode', 12345);
-const player = Map({
-    uuid: 'player-1s-uuid',
-    name: 'Player 1'
-});
-
-store.dispatch({
-    type: 'CREATE_ROOM',
-    meta: {remote: true},
-    roomCode: '2222',
-    player: player
-});
 
 ReactDOM.render((
     <Provider store={store}>
