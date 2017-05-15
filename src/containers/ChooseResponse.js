@@ -7,7 +7,7 @@ import getClientId from '../client_id';
 class ChooseResponse extends Component {
    render() {
        return(
-           this.props.shouldWait ? <Wait responses={this.props.responseObj} currentPlayerUUID={getClientId()} /> : <Guess/>
+           this.props.shouldWait ? <Wait responses={this.props.responseObj} currentPlayerUUID={getClientId()} /> : <Guess room={this.props.room} roomCode={this.props.roomCode}/>
        )
    }
 }

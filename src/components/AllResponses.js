@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {List, ListItem} from 'material-ui/List';
 import {Card, CardHeader, CardText} from 'material-ui/Card';
 import Subheader from 'material-ui/Subheader';
 import Avatar from 'material-ui/Avatar';
@@ -14,7 +13,6 @@ class AllResponses extends Component {
         return (
             <div>
                 <Subheader>Your Response</Subheader>
-
 
                 <Card>
                     <CardHeader
@@ -33,27 +31,26 @@ class AllResponses extends Component {
                 </Card>
 
                 <Subheader>Other Responses</Subheader>
-                <List>
-                    { this.props.otherResponses.map(response => {
-                        return (
-                            <Card>
-                                <CardHeader
-                                    title={"Name: ????"}
-                                    subtitle={"Score: ????"}
-                                    avatar={<Avatar
-                                        color={deepOrange300}
-                                        backgroundColor={purple500}
-                                        size={30}
-                                        style={style}
-                                    >?</Avatar>}
-                                />
-                                <CardText>
-                                    {response}
-                                </CardText>
-                            </Card>
-                        )
-                    })}
-                </List>
+
+                { this.props.otherResponses.map(response => {
+                    return (
+                        <Card>
+                            <CardHeader
+                                title={"Name: ????"}
+                                subtitle={"Score: ????"}
+                                avatar={<Avatar
+                                    color={deepOrange300}
+                                    backgroundColor={purple500}
+                                    size={30}
+                                    style={style}
+                                >?</Avatar>}
+                            />
+                            <CardText>
+                                {response}
+                            </CardText>
+                        </Card>
+                    )
+                })}
             </div>
         );
     }

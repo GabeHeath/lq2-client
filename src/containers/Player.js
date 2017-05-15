@@ -25,10 +25,10 @@ function showAllResponses(responseObj) {
     return true;
 }
 
-function buildResponseObj(players, uuid, currentPlayerUUID) {
+function buildResponseObj(players, currentPlayerUUID) {
     let playersObj = {};
     players.entrySeq().forEach( k => {
-        if(k[0] !== uuid && k[0] !== currentPlayerUUID) {
+        if(k[0] !== currentPlayerUUID) {
             playersObj[k[1].get('name')] = k[1].get('lastResponse')
         }
     });
@@ -36,7 +36,7 @@ function buildResponseObj(players, uuid, currentPlayerUUID) {
 }
 
 function mapStateToProps(state, ownProps) {
-    const responseObj = buildResponseObj( ownProps.room.getIn(['players', 'allPlayers']), getClientId(), ownProps.currentPlayerUUID );
+    const responseObj = buildResponseObj( ownProps.room.getIn(['players', 'allPlayers']), ownProps.currentPlayerUUID );
     return{
         shouldWait: !(ownProps.room.getIn(['players', 'allPlayers', getClientId(), 'lastResponse'])),
         responseObj: responseObj,
