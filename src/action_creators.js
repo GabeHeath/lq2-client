@@ -16,6 +16,15 @@ export function joinRoom(roomCode, player) {
     };
 }
 
+export function selectQuestion(roomCode, questionIndex) {
+    return {
+        meta: {remote: true},
+        type: 'SELECT_QUESTION',
+        roomCode: roomCode,
+        questionIndex: questionIndex
+    };
+}
+
 export function setState(state) {
     return {
         type: 'SET_STATE',
@@ -28,5 +37,14 @@ export function startGame(roomCode) {
         meta: {remote: true},
         type: 'START_GAME',
         roomCode: roomCode
+    };
+}
+
+export function submitResponse(roomCode, player) {
+    return {
+        meta: {remote: true},
+        type: 'SUBMIT_RESPONSE',
+        roomCode: roomCode,
+        player: player
     };
 }

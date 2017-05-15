@@ -5,7 +5,7 @@ import {createStore, applyMiddleware} from 'redux';
 import {Provider} from 'react-redux';
 import io from 'socket.io-client';
 import reducer from './reducer';
-import App from './components/App';
+import App from './containers/App';
 import {setState} from './action_creators';
 import remoteActionMiddleware from './remote_action_middleware';
 import logger from 'redux-logger';

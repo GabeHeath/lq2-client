@@ -1,6 +1,6 @@
 import React from 'react';
 import {Route} from 'react-router-dom';
-import MainMenu from './MainMenu';
+import MainMenu from '../components/MainMenu';
 import {GameStatusContainer} from './GameStatus';
 import injectTapEventPlugin from 'react-tap-event-plugin'
 

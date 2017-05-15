@@ -92,21 +92,10 @@ class Lobby extends Component {
     }
 }
 
-// function mapStateToProps(state, ownProps) {
-//     console.log(ownProps.room);
-//     return {
-//         room: ownProps.room
-//     }
-// }
-
-function mapStateToProps(state) {
-    return false;
-}
-
 function matchDispatchToProps(dispatch) {
     return bindActionCreators({
         startGame: startGame
     }, dispatch);
 }
 
-export default connect(mapStateToProps, matchDispatchToProps)(Lobby);
+export default connect(null, matchDispatchToProps)(Lobby);
