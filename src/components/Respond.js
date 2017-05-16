@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import ReactDOM from 'react-dom';
 import {Map} from 'immutable';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
