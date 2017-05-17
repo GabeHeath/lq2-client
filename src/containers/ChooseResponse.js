@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import Wait from '../components/Wait'
-import Guess from '../components/Guess'
+import Guessing from '../containers/Guessing'
 import getClientId from '../client_id';
 
 class ChooseResponse extends Component {
    render() {
        return(
-           this.props.shouldWait ? <Wait responses={this.props.responseObj} currentPlayerUUID={getClientId()} /> : <Guess room={this.props.room} roomCode={this.props.roomCode}/>
+           this.props.shouldWait ? <Wait responses={this.props.responseObj} currentPlayerUUID={getClientId()} /> : <Guessing room={this.props.room} roomCode={this.props.roomCode} />
        )
    }
 }

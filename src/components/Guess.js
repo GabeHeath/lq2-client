@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
-import ReactDOM from 'react-dom';
 import {connect} from 'react-redux';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
@@ -12,6 +11,7 @@ import getClientId from '../client_id';
 import {amber200, deepOrange300, green200, green900, lime900, purple500, red200, red900} from 'material-ui/styles/colors';
 import Snackbar from 'material-ui/Snackbar';
 import ForgotToRespondIcon from 'material-ui/svg-icons/av/new-releases';
+import {submitGuesses} from '../action_creators'
 
 class Guess extends Component {
     state = {
@@ -84,7 +84,7 @@ class Guess extends Component {
                     onTouchTap={ () => {
                         const shouldSubmitGuess = (((Object.keys(this.state).length) - 1) === (Object.keys(this.props.responders).length)) && ((Object.keys(this.state).length) - 1) > 1
                         if( shouldSubmitGuess ) {
-                            this.setState({ open: false });
+                            this.props.submitGuesses(this.props.roomCode, this.props.currentPlayerUUID, buildGuessesObj(this.state, this.props.room));
                         } else {
                             this.setState({ open: true });
                         }
@@ -106,6 +106,23 @@ class Guess extends Component {
             </div>
         );
     }
+}
+
+function buildGuessesObj(state, room) {
+    let guess = {
+        score: 0
+    };
+    Object.keys(state).forEach( uuid => {
+        if(uuid.toString() !== 'open') {
+            if( state[uuid] === room.getIn(['players', 'allPlayers', uuid, 'name']) ) {
+                guess[uuid] = true;
+                guess['score']++;
+            } else {
+                guess[uuid] = false;
+            }
+        }
+    });
+    return guess;
 }
 
 function isDuplicateName(state, name = null) {
@@ -146,7 +163,7 @@ function mapStateToProps(state, ownProps) {
 
 function matchDispatchToProps(dispatch){
     return bindActionCreators({
-        submitGuess: submitGuess,
+        submitGuesses: submitGuesses
     }, dispatch);
 }
 

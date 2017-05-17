@@ -16,6 +16,14 @@ export function joinRoom(roomCode, player) {
     };
 }
 
+export function nextPlayer(roomCode) {
+    return {
+        meta: {remote: true},
+        type: 'NEXT_PLAYER',
+        roomCode: roomCode
+    };
+}
+
 export function selectQuestion(roomCode, questionIndex) {
     return {
         meta: {remote: true},
@@ -40,10 +48,29 @@ export function startGame(roomCode) {
     };
 }
 
+export function submitGuesses(roomCode, currentPlayerUUID, guesses) {
+    return {
+        meta: {remote: true},
+        type: 'SUBMIT_GUESSES',
+        roomCode: roomCode,
+        currentPlayerUUID: currentPlayerUUID,
+        guesses: guesses
+    };
+}
+
 export function submitResponse(roomCode, player) {
     return {
         meta: {remote: true},
         type: 'SUBMIT_RESPONSE',
+        roomCode: roomCode,
+        player: player
+    };
+}
+
+export function updateScore(roomCode, player) {
+    return {
+        meta: {remote: true},
+        type: 'UPDATE_SCORE',
         roomCode: roomCode,
         player: player
     };
