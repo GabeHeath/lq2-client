@@ -1,12 +1,8 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Card, CardHeader, CardText} from 'material-ui/Card';
+import {Card, CardText} from 'material-ui/Card';
 import Subheader from 'material-ui/Subheader';
-import Avatar from 'material-ui/Avatar';
 import getClientId from '../client_id';
-import {deepOrange300, purple500} from 'material-ui/styles/colors';
-
-const style = {margin: 5};
 
 class AllResponses extends Component {
     render() {
@@ -15,16 +11,6 @@ class AllResponses extends Component {
                 <Subheader>Your Response</Subheader>
 
                 <Card>
-                    <CardHeader
-                        title={this.props.yourName}
-                        subtitle={"Score: " + this.props.yourScore}
-                        avatar={<Avatar
-                            color={deepOrange300}
-                            backgroundColor={purple500}
-                            size={30}
-                            style={style}
-                        >{this.props.yourName[0].toUpperCase()}</Avatar>}
-                    />
                     <CardText>
                         {this.props.yourResponse}
                     </CardText>
@@ -32,23 +18,16 @@ class AllResponses extends Component {
 
                 <Subheader>Other Responses</Subheader>
 
-                { this.props.otherResponses.map(response => {
+                { this.props.otherResponses.map( (response, i) => {
                     return (
-                        <Card>
-                            <CardHeader
-                                title={"Name: ????"}
-                                subtitle={"Score: ????"}
-                                avatar={<Avatar
-                                    color={deepOrange300}
-                                    backgroundColor={purple500}
-                                    size={30}
-                                    style={style}
-                                >?</Avatar>}
-                            />
-                            <CardText>
-                                {response}
-                            </CardText>
-                        </Card>
+                        <div key={i}>
+                            <Card>
+                                <CardText>
+                                    {response}
+                                </CardText>
+                            </Card>
+                            <br/>
+                        </div>
                     )
                 })}
             </div>

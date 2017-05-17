@@ -1,10 +1,8 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
 import {List, ListItem} from 'material-ui/List';
 import {startGame} from '../action_creators'
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import Divider from 'material-ui/Divider';
 import Subheader from 'material-ui/Subheader';
 import Avatar from 'material-ui/Avatar';
 import IconMenu from 'material-ui/IconMenu';
@@ -45,16 +43,6 @@ class Lobby extends Component {
     render() {
         return (
             <div>
-                <h2>Lobby here</h2>
-
-                <ul>
-                    <li><Link to="/">Main Menu</Link></li>
-                    <li><Link to="/lobby/1111">Lobby</Link></li>
-                    <li><Link to="/game">Game</Link></li>
-                </ul>
-
-                <Divider/>
-
                 <List>
                     <Subheader>Lobby</Subheader>
                     { this.props.room.getIn(['players', 'allPlayers']).map((k) => {

@@ -5,8 +5,10 @@ class AwaitingQuestion extends Component{
     render() {
         return (
             <div>
-                <h4>Waiting for {this.props.currentPlayerName} to select a question</h4>
-                <CircularProgress />
+                <h4 style={{textAlign: 'center'}}>Waiting for {this.props.currentPlayerName} to select a question</h4>
+                <div style={{marginLeft: 'calc(50% - 40px)'}}>
+                    <CircularProgress/>
+                </div>
             </div>
         );
     }

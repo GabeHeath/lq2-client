@@ -8,6 +8,7 @@ export function createRoom(roomCode, player) {
 }
 
 export function joinRoom(roomCode, player) {
+    console.log('joinroomaction', player);
     return {
         meta: {remote: true},
         type: 'JOIN_ROOM',

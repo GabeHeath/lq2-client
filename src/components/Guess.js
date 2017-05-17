@@ -3,7 +3,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import {Card, CardHeader, CardText} from 'material-ui/Card';
+import {Card, CardText} from 'material-ui/Card';
 import Subheader from 'material-ui/Subheader';
 import Avatar from 'material-ui/Avatar';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -40,35 +40,34 @@ class Guess extends Component {
                     return (
                         <div key={uuid+'Container'}>
                             <Card key={uuid+'Card'}>
-                                <CardHeader
-                                    title={<SelectField
-                                                value={this.state[uuid]}
-                                                onChange={this.handleChange.bind(this, uuid)}
-                                                floatingLabelText="Whose response is this?"
-                                                labelStyle={{ color: isDuplicate ? deepOrange300 : purple500 }}
-                                            >
-                                                {Object.keys(this.props.responders).map( k => {
-                                                    const name = this.props.responders[k]['name'];
-                                                    return (
-                                                        <MenuItem key={k} value={name} primaryText={name} />
-                                                    )
-                                                })}
-                                            </SelectField>}
-                                    avatar={<Avatar
-                                                color={isDuplicate ?
-                                                            lime900 :
-                                                            isSelected ?
-                                                                green900 :
-                                                                red900}
-                                                backgroundColor={isDuplicate ?
-                                                            amber200 :
-                                                            isSelected ?
-                                                                green200 :
-                                                                red200}
-                                                size={30}
-                                                style={{marginTop: 30}}
-                                            >{isDuplicate ? '!' : '?'}</Avatar>}
-                                />
+                                <Avatar
+                                    color={isDuplicate ?
+                                        lime900 :
+                                        isSelected ?
+                                            green900 :
+                                            red900}
+                                    backgroundColor={isDuplicate ?
+                                        amber200 :
+                                        isSelected ?
+                                            green200 :
+                                            red200}
+                                    size={30}
+                                    style={{marginTop: 30, marginLeft: 10, marginRight:10, float: 'left'}}
+                                >{isDuplicate ? '!' : '?'}</Avatar>
+                                <SelectField
+                                    value={this.state[uuid]}
+                                    onChange={this.handleChange.bind(this, uuid)}
+                                    floatingLabelText="Whose response is this?"
+                                    labelStyle={{ color: isDuplicate ? deepOrange300 : purple500 }}
+                                >
+                                    {Object.keys(this.props.responders).map( k => {
+                                        const name = this.props.responders[k]['name'];
+                                        return (
+                                            <MenuItem key={k} value={name} primaryText={name} />
+                                        )
+                                    })}
+                                </SelectField>
+
                                 <CardText>
                                     {this.props.responders[uuid]['response']}
                                 </CardText>
@@ -79,12 +78,12 @@ class Guess extends Component {
                 })}
                 <RaisedButton
                     label="Submit Guesses"
-                    primary={true}
+                    secondary={true}
                     fullWidth={true}
                     onTouchTap={ () => {
                         const shouldSubmitGuess = (((Object.keys(this.state).length) - 1) === (Object.keys(this.props.responders).length)) && ((Object.keys(this.state).length) - 1) > 1
                         if( shouldSubmitGuess ) {
-                            this.props.submitGuesses(this.props.roomCode, this.props.currentPlayerUUID, buildGuessesObj(this.state, this.props.room));
+                            this.props.submitGuesses(this.props.roomCode, getClientId(), buildGuessesObj(this.state, this.props.room));
                         } else {
                             this.setState({ open: true });
                         }
@@ -108,18 +107,30 @@ class Guess extends Component {
     }
 }
 
+function findUUIDByName(players, name) {
+    // console.log('players', players);
+    console.log('name', name);
+    console.log('KEY', Object.keys(players).keySeq());
+    Object.keys(players).keySeq().map( uuid => {
+        let matchedUUID = null;
+        if( players.getIn([uuid, 'name']) === name ) {
+            matchedUUID = uuid;
+        }
+        return matchedUUID
+    });
+}
+
 function buildGuessesObj(state, room) {
     let guess = {
         score: 0
     };
     Object.keys(state).forEach( uuid => {
-        if(uuid.toString() !== 'open') {
-            if( state[uuid] === room.getIn(['players', 'allPlayers', uuid, 'name']) ) {
-                guess[uuid] = true;
-                guess['score']++;
-            } else {
-                guess[uuid] = false;
-            }
+        // console.log('buildGuessObj', findUUIDByName(room.getIn(['players', 'allPlayers']), state[uuid]) );
+        if( state[uuid] === room.getIn(['players', 'allPlayers', uuid, 'name']) ) {
+            guess[uuid] = uuid;
+            guess['score']++;
+        } else {
+            guess[uuid] = findUUIDByName(room.getIn(['players', 'allPlayers']), state[uuid]);
         }
     });
     return guess;

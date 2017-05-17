@@ -59,7 +59,7 @@ class MainMenu extends Component {
                     secondary={true}
                     onTouchTap={ () => {
                         const name = ReactDOM.findDOMNode(this.refs.nameField.input).value;
-                        const roomCode = ReactDOM.findDOMNode(this.refs.roomCodeField.input).value;
+                        const roomCode = ReactDOM.findDOMNode(this.refs.roomCodeField.input).value.toUpperCase();
                         if(name === "") {
                             this.setState({ errorText: 'Name cannot be blank' });
                         } else {

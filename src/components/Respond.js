@@ -33,7 +33,6 @@ class Respond extends Component {
                     primary={true}
                     onTouchTap={ () => {
                         const response = this.refs.responseField.getValue();
-                        console.log(this.refs.responseField.getValue());
                         if(response === '') {
                             this.setState({ errorText: 'Response cannot be blank' });
                         } else {
