@@ -3,9 +3,26 @@ import {connect} from 'react-redux';
 import {Card, CardText} from 'material-ui/Card';
 import Subheader from 'material-ui/Subheader';
 import getClientId from '../client_id';
+import Chip from 'material-ui/Chip';
+import Avatar from 'material-ui/Avatar';
+import {List} from 'immutable';
 import {deepOrange300, purple500} from 'material-ui/styles/colors';
 
 class AllResponses extends Component {
+    state = {
+        liked: List()
+    };
+
+    handleLiked = (index) => {
+        console.log(this.state);
+        if(!this.state.liked[index]) {
+            this.setState({
+                liked: this.state.liked.set(index, true)
+            })
+            //send like to server
+        }
+    };
+
     render() {
         return (
             <div  style={{margin: 8}}>
@@ -13,7 +30,11 @@ class AllResponses extends Component {
 
                 <Card>
                     <CardText>
-                        {this.props.yourResponse}
+                        <Chip style={{margin:10, float:'right', height: '100%'}}>
+                            <Avatar size={32}>0</Avatar>
+                            Likes
+                        </Chip>
+                        <span style={{lineHeight: 1.5}}>{this.props.yourResponse}</span>
                     </CardText>
                 </Card>
 
@@ -24,7 +45,16 @@ class AllResponses extends Component {
                         <div key={i}>
                             <Card>
                                 <CardText>
-                                    {response}
+                                    <Chip
+                                        style={{margin:10, float:'right', height: '100%', backgroundColor: this.state.liked.get(i) ? '#f1dc90' : '#e0e0e0' }}
+                                        onTouchTap={ () => {
+                                            this.handleLiked(i);
+                                        }}
+                                    >
+                                        <Avatar size={32}>0</Avatar>
+                                        Likes
+                                    </Chip>
+                                    <span style={{lineHeight: 1.5}}>{response}</span>
                                 </CardText>
                             </Card>
                             <br/>

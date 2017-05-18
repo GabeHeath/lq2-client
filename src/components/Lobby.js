@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
+import {Link} from 'react-router-dom';
 import {List, ListItem} from 'material-ui/List';
-import {startGame} from '../action_creators'
+import {leaveRoom, startGame} from '../action_creators'
 import {bindActionCreators} from 'redux';
+import getClientId from '../client_id';
 import {connect} from 'react-redux';
 import Subheader from 'material-ui/Subheader';
 import Divider from 'material-ui/Divider';
@@ -13,18 +15,6 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import RaisedButton from 'material-ui/RaisedButton';
 import AppBar from 'material-ui/AppBar';
 import {deepOrange300, purple500} from 'material-ui/styles/colors';
-
-const Settings = () => (
-    <IconMenu
-        iconButtonElement={
-            <IconButton><MoreVertIcon color="#FFF" /></IconButton>
-        }
-        targetOrigin={{horizontal: 'right', vertical: 'top'}}
-        anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-    >
-        <MenuItem primaryText="Leave Room" />
-    </IconMenu>
-);
 
 const style = {margin: 5};
 
@@ -42,9 +32,34 @@ class Lobby extends Component {
         return (
             <div>
                 <AppBar
-                    title={`Room Code: ${this.props.roomCode}`}
+                    title={
+                        <span>
+                            Room Code:
+                             <span style={{fontFamily: "'Roboto Mono', monospace", fontSize: 35, marginLeft: 5, color: '#f3ff6a'}}>
+                                {this.props.roomCode}
+                            </span>
+                        </span>
+                    }
                     showMenuIconButton={false}
-                    iconElementRight={<Settings/>}
+                    titleStyle={{textAlign: 'center'}}
+                    iconElementRight={
+                        <IconMenu
+                            iconButtonElement={
+                                <IconButton><MoreVertIcon color="#FFF" /></IconButton>
+                            }
+                            targetOrigin={{horizontal: 'right', vertical: 'top'}}
+                            anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+                        >
+                            <Link to="/" style={{textDecoration: 'none'}}>
+                                <MenuItem
+                                    primaryText="Leave Room"
+                                    onTouchTap={ () => {
+                                        this.props.leaveRoom( this.props.roomCode, getClientId());
+                                    }}
+                                />
+                            </Link>
+                        </IconMenu>
+                    }
                     onLeftIconButtonTouchTap={ this.handleToggle }
                 />
                 <List>
@@ -86,7 +101,8 @@ class Lobby extends Component {
 
 function matchDispatchToProps(dispatch) {
     return bindActionCreators({
-        startGame: startGame
+        startGame: startGame,
+        leaveRoom: leaveRoom
     }, dispatch);
 }
 

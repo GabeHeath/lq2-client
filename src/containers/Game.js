@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
 import getClientId from '../client_id';
+import {leaveRoom} from '../action_creators'
+import {bindActionCreators} from 'redux';
 import CurrentPlayer from './CurrentPlayer';
 import Scores from '../components/Scores';
 import Player from './Player';
@@ -12,19 +15,6 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import BackIcon from 'material-ui/svg-icons/hardware/keyboard-backspace';
 import Drawer from 'material-ui/Drawer';
 
-const Settings = () => (
-    <IconMenu
-        iconButtonElement={
-            <IconButton><MoreVertIcon color="#FFF" /></IconButton>
-        }
-        targetOrigin={{horizontal: 'right', vertical: 'top'}}
-        anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-    >
-        <MenuItem primaryText="Leave Room" />
-    </IconMenu>
-);
-
-
 class Game extends Component {
     constructor(props) {
         super(props);
@@ -33,15 +23,39 @@ class Game extends Component {
 
     handleToggle = () => {
         this.setState({open: !this.state.open});
-    }
+    };
 
     render() {
         return (
             <div>
                 <AppBar
-                    title={`Room Code: ${this.props.roomCode}`}
-                    titleStyle={{fontSize:16}}
-                    iconElementRight={<Settings/>}
+                    title={
+                        <span>
+                            Room Code:
+                             <span style={{fontFamily: "'Roboto Mono', monospace", fontSize: 35, marginLeft: 5, color: '#f3ff6a'}}>
+                                {this.props.roomCode}
+                            </span>
+                        </span>
+                    }
+                    titleStyle={{textAlign: 'center'}}
+                    iconElementRight={
+                        <IconMenu
+                            iconButtonElement={
+                                <IconButton><MoreVertIcon color="#FFF" /></IconButton>
+                            }
+                            targetOrigin={{horizontal: 'right', vertical: 'top'}}
+                            anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+                        >
+                            <Link to="/" style={{textDecoration: 'none'}}>
+                                <MenuItem
+                                    primaryText="Leave Room"
+                                    onTouchTap={ () => {
+                                        this.props.leaveRoom( this.props.roomCode, getClientId());
+                                    }}
+                                />
+                            </Link>
+                        </IconMenu>
+                    }
                     onLeftIconButtonTouchTap={ this.handleToggle }
                 />
 
@@ -77,4 +91,10 @@ function mapStateToProps(state, ownProps) {
     };
 }
 
-export default connect(mapStateToProps)(Game);
+function matchDispatchToProps(dispatch) {
+    return bindActionCreators({
+        leaveRoom: leaveRoom
+    }, dispatch);
+}
+
+export default connect(mapStateToProps, matchDispatchToProps)(Game);

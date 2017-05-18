@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {List, ListItem} from 'material-ui/List';
+import {connect} from 'react-redux';
 import Divider from 'material-ui/Divider';
 import Subheader from 'material-ui/Subheader';
 import Avatar from 'material-ui/Avatar';
@@ -26,10 +27,12 @@ class Wait extends Component {
                                         backgroundColor={purple500}
                                         size={30}
                                         style={style}
-                                    >{this.props.room.getIn(['players', 'allPlayers', this.props.currentPlayerUUID, 'name'])[0].toUpperCase()}</Avatar>
+                                    >
+                                        {this.props.currentPlayerName ? this.props.currentPlayerName[0] : '?'}
+                                    </Avatar>
                                 }
                                 rightIcon={ <CurrentPlayerIcon />}
-                                primaryText={this.props.room.getIn(['players', 'allPlayers', this.props.currentPlayerUUID, 'name'])}
+                                primaryText={this.props.currentPlayerName ? this.props.currentPlayerName[0] : 'Player left'}
                             />
                             <Divider/>
                         </div>
@@ -61,4 +64,10 @@ class Wait extends Component {
     }
 }
 
-export default Wait;
+function mapStateToProps(state, ownProps) {
+    return{
+        currentPlayerName: ownProps.room.getIn(['players', 'allPlayers', ownProps.currentPlayerUUID, 'name'])
+    };
+}
+
+export default connect(mapStateToProps)(Wait);

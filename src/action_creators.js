@@ -7,8 +7,16 @@ export function createRoom(roomCode, player) {
     };
 }
 
+export function leaveRoom(roomCode, uuid) {
+    return {
+        meta: {remote: true},
+        type: 'LEAVE_ROOM',
+        roomCode: roomCode,
+        uuid: uuid
+    };
+}
+
 export function joinRoom(roomCode, player) {
-    console.log('joinroomaction', player);
     return {
         meta: {remote: true},
         type: 'JOIN_ROOM',

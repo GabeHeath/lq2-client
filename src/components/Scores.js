@@ -58,7 +58,6 @@ function sortScores(players) {
 }
 
 function mapStateToProps(state, ownProps) {
-    console.log( sortScores(ownProps.room.getIn(['players', 'allPlayers'])) );
     return{
         scores: sortScores(ownProps.room.getIn(['players', 'allPlayers']))
     };
