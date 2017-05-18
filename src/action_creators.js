@@ -67,12 +67,3 @@ export function submitResponse(roomCode, player) {
         player: player
     };
 }
-
-export function updateScore(roomCode, player) {
-    return {
-        meta: {remote: true},
-        type: 'UPDATE_SCORE',
-        roomCode: roomCode,
-        player: player
-    };
-}

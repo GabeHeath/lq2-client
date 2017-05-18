@@ -4,27 +4,25 @@ import {startGame} from '../action_creators'
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import Subheader from 'material-ui/Subheader';
+import Divider from 'material-ui/Divider';
 import Avatar from 'material-ui/Avatar';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import RaisedButton from 'material-ui/RaisedButton';
-import {grey400, deepOrange300, purple500} from 'material-ui/styles/colors';
+import AppBar from 'material-ui/AppBar';
+import {deepOrange300, purple500} from 'material-ui/styles/colors';
 
-const iconButtonElement = (
-    <IconButton
-        touch={true}
-        tooltip="more"
-        tooltipPosition="bottom-left"
+const Settings = () => (
+    <IconMenu
+        iconButtonElement={
+            <IconButton><MoreVertIcon color="#FFF" /></IconButton>
+        }
+        targetOrigin={{horizontal: 'right', vertical: 'top'}}
+        anchorOrigin={{horizontal: 'right', vertical: 'top'}}
     >
-        <MoreVertIcon color={grey400}/>
-    </IconButton>
-);
-
-const rightIconMenu = (
-    <IconMenu iconButtonElement={iconButtonElement}>
-        <MenuItem>Leave Room</MenuItem>
+        <MenuItem primaryText="Leave Room" />
     </IconMenu>
 );
 
@@ -43,6 +41,12 @@ class Lobby extends Component {
     render() {
         return (
             <div>
+                <AppBar
+                    title={`Room Code: ${this.props.roomCode}`}
+                    showMenuIconButton={false}
+                    iconElementRight={<Settings/>}
+                    onLeftIconButtonTouchTap={ this.handleToggle }
+                />
                 <List>
                     <Subheader>Lobby</Subheader>
                     { this.props.room.getIn(['players', 'allPlayers']).map((k) => {
@@ -57,23 +61,23 @@ class Lobby extends Component {
                                             style={style}
                                         >{k.get('name')[0].toUpperCase()}</Avatar>
                                     }
-                                    rightIconButton={rightIconMenu}
                                     primaryText={k.get('name')}
                                 />
-
+                                <Divider/>
                             </div>
                         )
                     })}
                 </List>
 
-                <RaisedButton label="Start Game"
-                              primary={true}
-                              disabled={this.state.disableStartGame}
-                              fullWidth={true}
-                              onTouchTap={ () => {
-                                  this.props.startGame(this.props.roomCode);
-                              }}
-                />
+                <div style={{textAlign: 'center'}}>
+                    <RaisedButton label="Start Game"
+                                  primary={true}
+                                  disabled={this.state.disableStartGame}
+                                  onTouchTap={ () => {
+                                      this.props.startGame(this.props.roomCode);
+                                  }}
+                    />
+                </div>
 
             </div>
         )

@@ -17,7 +17,7 @@ class Respond extends Component {
     render() {
         return(
             <div>
-                <h3><b>Question:</b> {this.props.activeQuestion}</h3>
+                <h3 style={{marginLeft: 8}}><b>Question:</b> {this.props.activeQuestion}</h3>
                 <Divider/>
                 <TextField
                     hintText="Response"
@@ -26,8 +26,9 @@ class Respond extends Component {
                     rows={2}
                     errorText={this.state.errorText}
                     ref="responseField"
+                    style={{marginLeft: 'calc(50% - 128px)'}}
                 />
-
+            <div style={{textAlign: 'center'}}>
                 <RaisedButton
                     label="Submit Response"
                     primary={true}
@@ -47,6 +48,7 @@ class Respond extends Component {
                             );
                         }
                     }}/>
+                </div>
             </div>
         )
     }

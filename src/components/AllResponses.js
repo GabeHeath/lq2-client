@@ -3,12 +3,13 @@ import {connect} from 'react-redux';
 import {Card, CardText} from 'material-ui/Card';
 import Subheader from 'material-ui/Subheader';
 import getClientId from '../client_id';
+import {deepOrange300, purple500} from 'material-ui/styles/colors';
 
 class AllResponses extends Component {
     render() {
         return (
-            <div>
-                <Subheader>Your Response</Subheader>
+            <div  style={{margin: 8}}>
+                <Subheader style={{color: purple500}} >Your Response</Subheader>
 
                 <Card>
                     <CardText>
@@ -16,7 +17,7 @@ class AllResponses extends Component {
                     </CardText>
                 </Card>
 
-                <Subheader>Other Responses</Subheader>
+                <Subheader style={{color: deepOrange300}}>Other Responses</Subheader>
 
                 { this.props.otherResponses.map( (response, i) => {
                     return (

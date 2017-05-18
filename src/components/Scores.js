@@ -11,7 +11,9 @@ class Scores extends Component {
         return (
             <div>
                 <List>
-                    {this.props.scores.map( (score,i) => {
+                    {this.props.scores.map( (uuid,i) => {
+                        const name = getNameFromUUID(this.props.room, uuid);
+                        const score = getScoreFromUUID(this.props.room, uuid)
                         return (
                             <ListItem
                                 key={i}
@@ -21,15 +23,15 @@ class Scores extends Component {
                                         backgroundColor={purple500}
                                         size={30}
                                         style={style}
-                                    >{score[0] ? score[0][0].toUpperCase() : '-'}</Avatar>
+                                    >{ name ? name[0] : '-'}</Avatar>
                                 }
-                                primaryText={`${score[0]}`}
+                                primaryText={`${name}`}
                                 rightAvatar={<Avatar
                                     color={grey800}
                                     backgroundColor={grey200}
                                     size={30}
                                     style={style}
-                                >{score[1]}</Avatar>}
+                                >{score}</Avatar>}
                             />
                         )
                     })}
@@ -39,21 +41,24 @@ class Scores extends Component {
     }
 }
 
+function getNameFromUUID(room, uuid) {
+    return room.getIn(['players', 'allPlayers', uuid, 'name']);
+}
+
+
+function getScoreFromUUID(room, uuid) {
+    return room.getIn(['players', 'allPlayers', uuid, 'score']);
+}
+
 function sortScores(players) {
-    let sortable = [];
-
-    players.keySeq().forEach( player => {
-        sortable.push([players.getIn([player, 'name']), players.getIn([player, 'score'])]);
-    });
-
-    sortable.sort(function(a, b) {
-        return a[0][1] - b[0][1];
-    });
-
-    return sortable;
+    return players.keySeq().sort(
+        function(a,b){
+            return players.getIn([b,'score']) - players.getIn([a,'score']);
+        })
 }
 
 function mapStateToProps(state, ownProps) {
+    console.log( sortScores(ownProps.room.getIn(['players', 'allPlayers'])) );
     return{
         scores: sortScores(ownProps.room.getIn(['players', 'allPlayers']))
     };

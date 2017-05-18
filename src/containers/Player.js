@@ -4,15 +4,18 @@ import getClientId from '../client_id';
 import Wait from "../components/Wait";
 import AllResponses from "../components/AllResponses";
 import Responding from "../containers/Responding";
+import Review from "../components/Review";
 
 class Player extends Component {
     render() {
         return (
-            this.props.showAllResponses ?
-                <AllResponses room={this.props.room} roomCode={this.props.roomCode} currentPlayerUUID={this.props.currentPlayerUUID}/> :
-                this.props.shouldWait ?
-                    <Responding room={this.props.room} roomCode={this.props.roomCode} currentPlayerUUID={this.props.currentPlayerUUID}/> :
-                    <Wait room={this.props.room} responses={this.props.responseObj} currentPlayerUUID={this.props.currentPlayerUUID} />
+            this.props.room.has('guesses') ?
+                <Review room={this.props.room} roomCode={this.props.roomCode} /> :
+                this.props.showAllResponses ?
+                    <AllResponses room={this.props.room} roomCode={this.props.roomCode} currentPlayerUUID={this.props.currentPlayerUUID}/> :
+                    this.props.shouldWait ?
+                        <Responding room={this.props.room} roomCode={this.props.roomCode} currentPlayerUUID={this.props.currentPlayerUUID}/> :
+                        <Wait room={this.props.room} responses={this.props.responseObj} currentPlayerUUID={this.props.currentPlayerUUID} />
         );
     }
 }

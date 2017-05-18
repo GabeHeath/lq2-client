@@ -18,18 +18,22 @@ class Wait extends Component {
                 <List>
                     <Subheader>Waiting for players to respond</Subheader>
                     {getClientId() !== this.props.currentPlayerUUID ?
-                        <ListItem
-                            leftAvatar={
-                                <Avatar
-                                    color={deepOrange300}
-                                    backgroundColor={purple500}
-                                    size={30}
-                                    style={style}
-                                >{this.props.room.getIn(['players', 'allPlayers', this.props.currentPlayerUUID, 'name'])[0].toUpperCase()}</Avatar>
-                            }
-                            rightIcon={ <CurrentPlayerIcon />}
-                            primaryText={this.props.room.getIn(['players', 'allPlayers', this.props.currentPlayerUUID, 'name'])}
-                        /> : null
+                        <div>
+                            <ListItem
+                                leftAvatar={
+                                    <Avatar
+                                        color={deepOrange300}
+                                        backgroundColor={purple500}
+                                        size={30}
+                                        style={style}
+                                    >{this.props.room.getIn(['players', 'allPlayers', this.props.currentPlayerUUID, 'name'])[0].toUpperCase()}</Avatar>
+                                }
+                                rightIcon={ <CurrentPlayerIcon />}
+                                primaryText={this.props.room.getIn(['players', 'allPlayers', this.props.currentPlayerUUID, 'name'])}
+                            />
+                            <Divider/>
+                        </div>
+                        : null
                     }
 
                     { Object.keys(this.props.responses).map( (k,v) => {
@@ -44,7 +48,7 @@ class Wait extends Component {
                                             style={style}
                                         >{k.toString()[0].toUpperCase()}</Avatar>
                                     }
-                                    rightIcon={ (this.props.responses[k] === null) ? <CircularProgress color={deepOrange300} style={style} />: <ResponseCompletedIcon />}
+                                    rightIcon={ (this.props.responses[k] === null) ? <CircularProgress size={20} color={deepOrange300} />: <ResponseCompletedIcon />}
                                     primaryText={k}
                                 />
                                 <Divider/>

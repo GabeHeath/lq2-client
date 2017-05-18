@@ -47,7 +47,7 @@ class Game extends Component {
 
                 {this.props.currentPlayer === getClientId() ? <CurrentPlayer room={this.props.room} roomCode={this.props.roomCode} /> : <Player room={this.props.room} roomCode={this.props.roomCode} currentPlayerUUID={this.props.currentPlayer}/>}
 
-                <Drawer open={this.state.open}>
+                <Drawer open={this.state.open }>
                     <AppBar
                         title="Scores"
                         showMenuIconButton={false}

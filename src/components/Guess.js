@@ -8,8 +8,9 @@ import Subheader from 'material-ui/Subheader';
 import Avatar from 'material-ui/Avatar';
 import RaisedButton from 'material-ui/RaisedButton';
 import getClientId from '../client_id';
-import {amber200, deepOrange300, green200, green900, lime900, purple500, red200, red900} from 'material-ui/styles/colors';
+import {amber200, deepOrange300, green200, green900, lime900, purple500, red200, red300, red900} from 'material-ui/styles/colors';
 import Snackbar from 'material-ui/Snackbar';
+import IconButton from 'material-ui/IconButton';
 import ForgotToRespondIcon from 'material-ui/svg-icons/av/new-releases';
 import {submitGuesses} from '../action_creators'
 
@@ -32,8 +33,8 @@ class Guess extends Component {
 
     render() {
         return (
-            <div>
-                <Subheader>Try to match players to their response</Subheader>
+            <div style={{margin: 8}}>
+                <Subheader style={{color: purple500}}>Try to match players to their response</Subheader>
                 { this.props.shuffledKeys.map(uuid => {
                     const isDuplicate = isDuplicateName(this.state, this.state[uuid]);
                     const isSelected = !!(this.state[uuid]);
@@ -76,28 +77,33 @@ class Guess extends Component {
                         </div>
                     )
                 })}
-                <RaisedButton
-                    label="Submit Guesses"
-                    secondary={true}
-                    fullWidth={true}
-                    onTouchTap={ () => {
-                        const shouldSubmitGuess = (((Object.keys(this.state).length) - 1) === (Object.keys(this.props.responders).length)) && ((Object.keys(this.state).length) - 1) > 1
-                        if( shouldSubmitGuess ) {
-                            this.props.submitGuesses(this.props.roomCode, getClientId(), buildGuessesObj(this.state, this.props.room));
-                        } else {
-                            this.setState({ open: true });
-                        }
-                    }}
-                />
+                <div style={{textAlign: 'center'}}>
+                    <RaisedButton
+                        label="Submit Guesses"
+                        secondary={true}
+                        style={{marginBottom: 20}}
+                        onTouchTap={ () => {
+                            const shouldSubmitGuess = (((Object.keys(this.state).length) - 1) === (Object.keys(this.props.responders).length)) && ((Object.keys(this.state).length) - 1) > 1
+                            if( shouldSubmitGuess ) {
+                                this.props.submitGuesses(this.props.roomCode, getClientId(), buildGuessesObj(this.state, this.props.room));
+                            } else {
+                                this.setState({ open: true });
+                            }
+                        }}
+                    />
+                </div>
+
                 <Snackbar
                     open={this.state.open}
+                    bodyStyle={{backgroundColor: red300}}
                     message={
-                        <div>
-                            <ForgotToRespondIcon
-                                color={amber200}
-                                style={{height: 36, width: 36, marginTop: 5, display: 'inline'}}
-                            />
-                            <div style={{marginTop: -60, textAlign: 'right', fontSize: 16}}>Looks like you missed a response</div>
+                        <div style={{textAlign: 'left'}}>
+                            <IconButton>
+                                <ForgotToRespondIcon
+                                    color={amber200}
+                                />
+                            </IconButton>
+                            <span style={{position: 'absolute'}}>Looks like you missed a response</span>
                         </div>}
                     autoHideDuration={4000}
                     onRequestClose={this.handleRequestClose}
@@ -108,29 +114,26 @@ class Guess extends Component {
 }
 
 function findUUIDByName(players, name) {
-    // console.log('players', players);
-    console.log('name', name);
-    console.log('KEY', Object.keys(players).keySeq());
-    Object.keys(players).keySeq().map( uuid => {
-        let matchedUUID = null;
+    let matchedUUID = null;
+    players.keySeq().forEach( uuid => {
         if( players.getIn([uuid, 'name']) === name ) {
             matchedUUID = uuid;
         }
-        return matchedUUID
     });
+    return matchedUUID;
 }
 
 function buildGuessesObj(state, room) {
-    let guess = {
-        score: 0
-    };
+    let guess = { score: 0 };
+
     Object.keys(state).forEach( uuid => {
-        // console.log('buildGuessObj', findUUIDByName(room.getIn(['players', 'allPlayers']), state[uuid]) );
-        if( state[uuid] === room.getIn(['players', 'allPlayers', uuid, 'name']) ) {
-            guess[uuid] = uuid;
-            guess['score']++;
-        } else {
-            guess[uuid] = findUUIDByName(room.getIn(['players', 'allPlayers']), state[uuid]);
+        if(uuid !== 'open') {
+            if( state[uuid] === room.getIn(['players', 'allPlayers', uuid, 'name']) ) {
+                guess[uuid] = uuid;
+                guess['score']++;
+            } else {
+                guess[uuid] = findUUIDByName(room.getIn(['players', 'allPlayers']), state[uuid]);
+            }
         }
     });
     return guess;

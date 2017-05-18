@@ -11,7 +11,7 @@ class GameStatus extends Component {
                 this.props.room.get('gameInProgress') ?
                     <Game room={this.props.room} roomCode={this.props.match.params.roomCode}/>
                     : <Lobby room={this.props.room} roomCode={this.props.match.params.roomCode}/>
-                : <MainMenu/>
+            : <MainMenu/>
         )
     }
 }
