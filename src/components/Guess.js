@@ -83,8 +83,6 @@ class Guess extends Component {
                         secondary={true}
                         style={{marginBottom: 20}}
                         onTouchTap={ () => {
-                            console.log(Object.keys(this.state));
-                            console.log(Object.keys(this.props.responders));
                             const shouldSubmitGuess = (((Object.keys(this.state).length) - 1) === (Object.keys(this.props.responders).length));
                             if( shouldSubmitGuess ) {
                                 this.props.submitGuesses(this.props.roomCode, getClientId(), buildGuessesObj(this.state, this.props.room));

@@ -13,7 +13,8 @@ class Scores extends Component {
                 <List>
                     {this.props.scores.map( (uuid,i) => {
                         const name = getNameFromUUID(this.props.room, uuid);
-                        const score = getScoreFromUUID(this.props.room, uuid)
+                        const score = getScoreFromUUID(this.props.room, uuid);
+                        const likes = getLikesFromUUID(this.props.room, uuid);
                         return (
                             <ListItem
                                 key={i}
@@ -26,6 +27,7 @@ class Scores extends Component {
                                     >{ name ? name[0] : '-'}</Avatar>
                                 }
                                 primaryText={`${name}`}
+                                secondaryText={`Likes: ${likes}`}
                                 rightAvatar={<Avatar
                                     color={grey800}
                                     backgroundColor={grey200}
@@ -48,6 +50,10 @@ function getNameFromUUID(room, uuid) {
 
 function getScoreFromUUID(room, uuid) {
     return room.getIn(['players', 'allPlayers', uuid, 'score']);
+}
+
+function getLikesFromUUID(room, uuid) {
+    return room.getIn(['players', 'allPlayers', uuid, 'likes']);
 }
 
 function sortScores(players) {

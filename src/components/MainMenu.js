@@ -37,6 +37,7 @@ class MainMenu extends Component {
                     hintText="Enter Your Name"
                     floatingLabelText="Name"
                     errorText={this.state.errorText}
+                    maxLength="12"
                     ref="nameField"
                 />
 
@@ -122,7 +123,7 @@ class MainMenu extends Component {
                                 </IconButton>
                                 <span style={{position: 'absolute'}}>{this.state.joinRoomErrorText}</span>
                             </div>}
-                        autoHideDuration={44444000}
+                        autoHideDuration={4000}
                         onRequestClose={this.handleRequestClose}
                     />
             </div>

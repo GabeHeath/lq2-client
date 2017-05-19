@@ -67,6 +67,15 @@ export function submitGuesses(roomCode, currentPlayerUUID, guesses) {
     };
 }
 
+export function submitLike(roomCode, uuid) {
+    return {
+        meta: {remote: true},
+        type: 'SUBMIT_LIKE',
+        roomCode: roomCode,
+        uuid: uuid
+    };
+}
+
 export function submitResponse(roomCode, player) {
     return {
         meta: {remote: true},
